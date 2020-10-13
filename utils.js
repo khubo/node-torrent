@@ -30,7 +30,7 @@ function buildTrackerUrl(torrent, peerId, port) {
 
 async function getPeers(uri) {
   const response = await fetch(uri).then(res => res.arrayBuffer()).then(bencode.decode)
-  var peers = new Buffer(response.peers, 'binary')
+  var peers = Buffer.from(response.peers, 'binary')
   const peerList = []
   for (var i = 0; i < peers.length; i += 6) {
     var ip = peers[i] + '.' + peers[i + 1] + '.' + peers[i + 2] + '.' + peers[i + 3];
@@ -42,6 +42,18 @@ async function getPeers(uri) {
   return peerList
 }
 
+function createRandomId(clientIdentifier = '-NT0010') {
+
+  const id = Buffer.alloc(20)
+  id.write(clientIdentifier, 0, 'ascii')
+
+  for (var i = clientIdentifier.length; i < 20; i++) {
+    id[i] = Math.floor(Math.random() * 255);
+  }
+  return id
+}
+
+module.exports.createRandomId = createRandomId
 module.exports.getPeers = getPeers
 module.exports.buildTrackerUrl = buildTrackerUrl
 module.exports.parseTorrentFile = parseTorrentFile
