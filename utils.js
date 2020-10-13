@@ -42,7 +42,7 @@ async function getPeers(uri) {
   return peerList
 }
 
-function createRandomId(clientIdentifier = '-NT0010') {
+function createPeerId(clientIdentifier = '-NT0010') {
 
   const id = Buffer.alloc(20)
   id.write(clientIdentifier, 0, 'ascii')
@@ -53,7 +53,7 @@ function createRandomId(clientIdentifier = '-NT0010') {
   return id
 }
 
-module.exports.createRandomId = createRandomId
+module.exports.createPeerId = createPeerId
 module.exports.getPeers = getPeers
 module.exports.buildTrackerUrl = buildTrackerUrl
 module.exports.parseTorrentFile = parseTorrentFile
