@@ -3,7 +3,7 @@ const fetch = require('node-fetch')
 const fs = require('fs')
 const parseTorrent = require('parse-torrent')
 const bencode = require('bencode')
-
+const Peer = require('./peer')
 
 function parseTorrentFile(filePath) {
   const torrentBuffer = fs.readFileSync(filePath)
@@ -35,9 +35,7 @@ async function getPeers(uri) {
   for (var i = 0; i < peers.length; i += 6) {
     var ip = peers[i] + '.' + peers[i + 1] + '.' + peers[i + 2] + '.' + peers[i + 3];
     var port = peers[i + 4] << 8 | peers[i + 5];
-    peerList.push({
-      ip, port
-    })
+    peerList.push(new Peer(ip, port))
   }
   return peerList
 }
